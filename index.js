@@ -20,7 +20,7 @@ const connectDB = require('./config/db');
 
   // Routes
   app.use('/api/auth', authRoutes);
-
+  app.use('/api/books', bookRoutes);
   // Home Route
   app.get('/', (req, res) => {
     res.json({
