@@ -5,30 +5,33 @@ const cors = require('cors');
 dotenv.config();
 
 const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
 
-// Connect Database
-connectDB();
+// Connect Database and start server
+(async () => {
+  await connectDB();
+  
+  const authRoutes = require('./routes/authRoutes');
+  
+  const app = express();
 
-const app = express();
+  // Middleware
+  app.use(cors());
+  app.use(express.json());
 
-// Middleware
-app.use(cors());
-app.use(express.json());
+  // Routes
+  app.use('/api/auth', authRoutes);
 
-// Routes
-app.use('/api/auth', authRoutes);
-
-// Home Route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Book Management System API Running',
+  // Home Route
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Book Management System API Running',
+    });
   });
-});
 
-// Server
-const PORT = process.env.PORT || 5000;
+  // Server
+  const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+})();
