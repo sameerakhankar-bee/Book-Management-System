@@ -1,7 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+
 const bookRoutes = require('./routes/bookRoutes');
+const categoryRoutes = require('./routes/categoryRoutes'); // NEW
+
 dotenv.config();
 
 const connectDB = require('./config/db');
@@ -9,9 +12,9 @@ const connectDB = require('./config/db');
 // Connect Database and start server
 (async () => {
   await connectDB();
-  
+
   const authRoutes = require('./routes/authRoutes');
-  
+
   const app = express();
 
   // Middleware
@@ -21,6 +24,8 @@ const connectDB = require('./config/db');
   // Routes
   app.use('/api/auth', authRoutes);
   app.use('/api/books', bookRoutes);
+  app.use('/api/categories', categoryRoutes); // NEW
+
   // Home Route
   app.get('/', (req, res) => {
     res.json({
